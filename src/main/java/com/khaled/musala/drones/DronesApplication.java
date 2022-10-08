@@ -28,6 +28,7 @@ public class DronesApplication {
 
     @PostConstruct
     public void populateDatabase() {
+        Random random = new Random();
         for (int i = 1; i <= 10; i++) {
             medicationRepository.save(Medication.builder()
                     .code("code" + i)
@@ -37,10 +38,10 @@ public class DronesApplication {
                     .build());
             droneRepository.save(Drone.builder()
                     .state(Drone.State.IDLE)
-                    .batteryCapacity(new Random().nextInt(100))
-                    .weightLimit(new Random().nextInt(500))
+                    .batteryCapacity(random.nextInt(100))
+                    .weightLimit(random.nextInt(500))
                     .serialNumber("SerialNumber " + i)
-                    .model(Drone.Model.values()[new Random().nextInt(4)])
+                    .model(Drone.Model.values()[random.nextInt(4)])
                     .build());
         }
     }

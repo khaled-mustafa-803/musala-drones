@@ -9,6 +9,7 @@ import com.khaled.musala.drones.mapper.DroneMapper;
 import com.khaled.musala.drones.mapper.MedicationMapper;
 import com.khaled.musala.drones.repository.DroneRepository;
 import com.khaled.musala.drones.repository.MedicationRepository;
+import com.khaled.musala.drones.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class DroneService {
 
-    public static final int MINIMUM_BATTERY_CAPACITY = 25;
     @Autowired
     DroneRepository droneRepository;
 
@@ -39,7 +39,7 @@ public class DroneService {
 
 
     public DroneResponse loadDroneWithMedication(Long id, @NotNull List<Long> medicationIds) {
-        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone ID does not exist"));
+        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.DRONE_ID_DOES_NOT_EXIST));
         List<Medication> medications = medicationRepository.findAllByIdIn(medicationIds);
         if (medications.size() != medicationIds.size()) {
             List<Long> ids = medications.stream().map(Medication::getId).filter(medicationIds::contains).collect(Collectors.toList());
@@ -67,16 +67,16 @@ public class DroneService {
 
 
     public List<MedicationResponse> listDroneMedications(Long id) {
-        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone ID does not exist"));
+        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.DRONE_ID_DOES_NOT_EXIST));
         return drone.getMedications().stream().map(MedicationMapper::mapMedicationEntityToMedicationResponse).collect(Collectors.toList());
     }
 
     public Integer checkDroneBatteryLevel(Long id) {
-        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone ID does not exist"));
+        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, Constants.DRONE_ID_DOES_NOT_EXIST));
         return drone.getBatteryCapacity();
     }
 
     public List<DroneResponse> listDronesAvailableForLoading() {
-        return droneRepository.findAllByStateAndBatteryCapacityGreaterThan(Drone.State.IDLE, MINIMUM_BATTERY_CAPACITY).stream().map(DroneMapper::mapDroneToDroneResponse).collect(Collectors.toList());
+        return droneRepository.findAllByStateAndBatteryCapacityGreaterThan(Drone.State.IDLE, Constants.MINIMUM_BATTERY_CAPACITY).stream().map(DroneMapper::mapDroneToDroneResponse).collect(Collectors.toList());
     }
 }
