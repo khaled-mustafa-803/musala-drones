@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class DroneMapperTest {
     @Test
-    public void mapRegisterRequestToDroneEntityTest(){
+    public void mapRegisterRequestToDroneEntityTest() {
         RegisterDroneRequest request = RegisterDroneRequest.builder()
                 .weightLimit(400)
                 .serialNumber("Serial number")
@@ -24,7 +24,7 @@ public class DroneMapperTest {
     }
 
     @Test
-    public void mapDroneToDroneResponseTest(){
+    public void mapDroneToDroneResponseTest() {
         Drone drone = Drone.builder()
                 .id(1L)
                 .state(Drone.State.IDLE)

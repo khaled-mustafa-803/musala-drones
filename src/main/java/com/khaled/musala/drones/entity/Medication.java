@@ -2,7 +2,10 @@ package com.khaled.musala.drones.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @Setter
@@ -15,7 +18,7 @@ public class Medication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String weight;
+    private Integer weight;
     private String code;
     private String image;
 

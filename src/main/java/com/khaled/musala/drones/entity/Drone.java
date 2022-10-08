@@ -1,6 +1,7 @@
 package com.khaled.musala.drones.entity;
 
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -26,11 +27,11 @@ public class Drone {
     @OneToMany
     private List<Medication> medications;
 
-    public enum Model{
+    public enum Model {
         Lightweight, Middleweight, Cruiserweight, Heavyweight
     }
 
-    public enum State{
+    public enum State {
         IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING
     }
 }

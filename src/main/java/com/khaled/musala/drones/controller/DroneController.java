@@ -1,5 +1,6 @@
 package com.khaled.musala.drones.controller;
 
+import com.khaled.musala.drones.dto.DroneMedicationLoadRequest;
 import com.khaled.musala.drones.dto.DroneResponse;
 import com.khaled.musala.drones.dto.RegisterDroneRequest;
 import com.khaled.musala.drones.service.DroneService;
@@ -18,7 +19,14 @@ public class DroneController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DroneResponse registerDrone(@RequestBody @Valid RegisterDroneRequest registerDroneRequest){
+    public DroneResponse registerDrone(@RequestBody @Valid RegisterDroneRequest registerDroneRequest) {
         return droneService.registerDrone(registerDroneRequest);
     }
+
+    @PutMapping("/{id}/load")
+    @ResponseStatus(HttpStatus.OK)
+    public DroneResponse registerDrone(@PathVariable("id") Long id, @RequestBody @Valid DroneMedicationLoadRequest droneMedicationLoadRequest) {
+        return droneService.loadDroneWithMedication(id, droneMedicationLoadRequest.getMedicationIds());
+    }
+
 }
