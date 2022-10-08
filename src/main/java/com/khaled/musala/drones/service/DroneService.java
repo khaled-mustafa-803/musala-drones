@@ -1,10 +1,12 @@
 package com.khaled.musala.drones.service;
 
 import com.khaled.musala.drones.dto.DroneResponse;
+import com.khaled.musala.drones.dto.MedicationResponse;
 import com.khaled.musala.drones.dto.RegisterDroneRequest;
 import com.khaled.musala.drones.entity.Drone;
 import com.khaled.musala.drones.entity.Medication;
 import com.khaled.musala.drones.mapper.DroneMapper;
+import com.khaled.musala.drones.mapper.MedicationMapper;
 import com.khaled.musala.drones.repository.DroneRepository;
 import com.khaled.musala.drones.repository.MedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +65,8 @@ public class DroneService {
     }
 
 
+    public List<MedicationResponse> listDroneMedications(Long id) {
+        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone ID does not exist"));
+        return drone.getMedications().stream().map(MedicationMapper::mapMedicationEntityToMedicationResponse).collect(Collectors.toList());
+    }
 }

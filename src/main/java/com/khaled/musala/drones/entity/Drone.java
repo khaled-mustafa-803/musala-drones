@@ -3,6 +3,7 @@ package com.khaled.musala.drones.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,8 +25,9 @@ public class Drone {
     @Enumerated(value = EnumType.STRING)
     private State state;
 
+    @Builder.Default
     @OneToMany
-    private List<Medication> medications;
+    private List<Medication> medications = new ArrayList<>();
 
     public enum Model {
         Lightweight, Middleweight, Cruiserweight, Heavyweight

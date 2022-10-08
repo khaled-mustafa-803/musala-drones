@@ -123,6 +123,24 @@ public class DroneServiceTest {
         Assertions.assertThrows(ResponseStatusException.class, () -> droneService.loadDroneWithMedication(droneId, List.of(medicationId)), "Medications total weight:" + 100 + " exceeds drone's limit:" + drone.getWeightLimit());
     }
 
+    @Test
+    public void listDroneMedicationsTest() {
+        Long medicationId = 2L;
+        Long droneId = 1L;
+        Drone drone = buildIdleDrone(droneId);
+        drone.setMedications(List.of(buildMedication(medicationId)));
+        Mockito.when(droneRepository.findById(droneId)).thenReturn(Optional.of(drone));
+        List<MedicationResponse> medicationResponses = droneService.listDroneMedications(droneId);
+        Assertions.assertEquals(1, medicationResponses.size());
+        Assertions.assertEquals(medicationId, medicationResponses.get(0).getId());
+    }
+
+    @Test
+    public void listDroneMedicationsWithNotExistingDroneTest_throwsException() {
+        Long droneId = 1L;
+        Mockito.when(droneRepository.findById(droneId)).thenReturn(Optional.empty());
+        Assertions.assertThrows(ResponseStatusException.class, () -> droneService.listDroneMedications(droneId), "Drone ID does not exist");
+    }
 
     private Drone buildIdleDrone(Long droneId) {
         return Drone.builder()
