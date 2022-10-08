@@ -69,4 +69,9 @@ public class DroneService {
         Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone ID does not exist"));
         return drone.getMedications().stream().map(MedicationMapper::mapMedicationEntityToMedicationResponse).collect(Collectors.toList());
     }
+
+    public Integer checkDroneBatteryLevel(Long id) {
+        Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone ID does not exist"));
+        return drone.getBatteryCapacity();
+    }
 }

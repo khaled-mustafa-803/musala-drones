@@ -37,4 +37,10 @@ public class DroneController {
         return droneService.listDroneMedications(id);
     }
 
+    @GetMapping("/{id}/battery")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer checkDroneBatteryLevel(@PathVariable("id") Long id){
+        return droneService.checkDroneBatteryLevel(id);
+    }
+
 }
