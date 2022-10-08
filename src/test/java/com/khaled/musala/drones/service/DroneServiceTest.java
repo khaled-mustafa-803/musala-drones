@@ -61,6 +61,7 @@ public class DroneServiceTest {
 
         DroneResponse droneResponse = droneService.loadDroneWithMedication(droneId, List.of(medicationId));
         Assertions.assertEquals(List.of(medicationId), droneResponse.getMedications().stream().map(MedicationResponse::getId).collect(Collectors.toList()));
+        Assertions.assertEquals(Drone.State.LOADING, droneResponse.getState());
     }
 
     @Test

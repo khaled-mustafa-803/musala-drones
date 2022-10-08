@@ -44,6 +44,7 @@ public class DroneService {
         }
         validateDroneCanLoadMedications(drone, medications);
         drone.setMedications(medications);
+        drone.setState(Drone.State.LOADING);
         droneRepository.save(drone);
         return DroneMapper.mapDroneToDroneResponse(drone);
     }
