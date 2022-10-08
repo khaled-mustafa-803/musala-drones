@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface DroneRepository extends CrudRepository<Drone, Long> {
     Optional<Drone> findBySerialNumber(String serialNumber);
     List<Drone> findAllByStateAndBatteryCapacityGreaterThan(Drone.State state, Integer batteryCapacity);
+    List<Drone> findAll();
 }
