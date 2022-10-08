@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class DroneService {
 
+    public static final int MINIMUM_BATTERY_CAPACITY = 25;
     @Autowired
     DroneRepository droneRepository;
 
@@ -73,5 +74,9 @@ public class DroneService {
     public Integer checkDroneBatteryLevel(Long id) {
         Drone drone = droneRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Drone ID does not exist"));
         return drone.getBatteryCapacity();
+    }
+
+    public List<DroneResponse> listDronesAvailableForLoading() {
+        return droneRepository.findAllByStateAndBatteryCapacityGreaterThan(Drone.State.IDLE, MINIMUM_BATTERY_CAPACITY).stream().map(DroneMapper::mapDroneToDroneResponse).collect(Collectors.toList());
     }
 }

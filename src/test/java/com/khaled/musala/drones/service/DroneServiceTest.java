@@ -159,6 +159,21 @@ public class DroneServiceTest {
         Assertions.assertThrows(ResponseStatusException.class, () -> droneService.checkDroneBatteryLevel(droneId), "Drone ID does not exist");
     }
 
+    @Test
+    public void listDronesAvailableForLoading(){
+        Long idleWithCapacityDroneId = 1L;
+        Drone idleWithCapacityDrone = Drone.builder().id(idleWithCapacityDroneId).batteryCapacity(50).state(Drone.State.IDLE).build();
+
+        Mockito.when(droneRepository.findAllByStateAndBatteryCapacityGreaterThan(Drone.State.IDLE, 25)).thenReturn(List.of(
+                idleWithCapacityDrone
+        ));
+
+        List<DroneResponse> droneResponses = droneService.listDronesAvailableForLoading();
+
+        Assertions.assertEquals(1, droneResponses.size());
+        Assertions.assertEquals(droneResponses.get(0).getId(), idleWithCapacityDroneId);
+    }
+
     private Drone buildIdleDrone(Long droneId) {
         return Drone.builder()
                 .id(droneId)

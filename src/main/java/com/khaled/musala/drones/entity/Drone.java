@@ -26,7 +26,7 @@ public class Drone {
     private State state;
 
     @Builder.Default
-    @OneToMany
+    @ManyToMany
     private List<Medication> medications = new ArrayList<>();
 
     public enum Model {
